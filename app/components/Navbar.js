@@ -38,20 +38,59 @@ export default function Navbar() {
     }
   }, [isOpen]);
 
+    useEffect(() => {
+    gsap.fromTo(
+      borderRef.current,
+      { width: "0%" },      // Départ
+      { width: "100%",      // Fin
+        duration: 2,
+        delay: 0.5,
+        ease: "power2.out"
+      }
+    );
+  }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      gsap.fromTo(
+        linksRef.current,
+        { x: 100, opacity: 0 },
+        { x: 0, opacity: 1, stagger: 0.1, duration: 0.5, ease: "power2.out" }
+      );
+    }
+  }, [isOpen]);
+  const borderRef = useRef();
+
+ useEffect(() => {
+  if (borderRef.current) {
+    gsap.to(borderRef.current, {
+      scaleX: 1,
+      duration: 1.5,
+      ease: "power2.out"
+    });
+  }
+}, []);
+
+
   return (
-    <nav ref={navRef} className="border-b border-gray-700 bg-black shadow-md fixed w-full z-50 font-sans bg-gradient-to-r from-black via-gray-900 to-black">
+    <nav ref={navRef} className=" shadow-md fixed w-full z-50 font-sans bg-gradient-to-r from-black via-gray-900 to-black">
+         <span
+        ref={borderRef}
+        className="absolute left-0 bottom-0 h-[2px] bg-gray-800 block w-full"
+      ></span>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-8">
-            <Link href="/" className="flex items-center">
-              <Image
-                src="/assets/icon.png"
-                alt="Logo"
-                width={80}
-                height={80}
-                className="mr-2"
-              />
-            </Link>
+          <Link href="/" className="flex items-center py-2">
+  <Image
+    src="/assets/icon.png"
+    alt="Logo"
+    width={80}
+    height={80}
+    className="mr-2 w-16 h-16 sm:w-20 sm:h-20"
+  />
+</Link>
+
             {links.map((link, i) => (
    <span
     key={i}
@@ -124,7 +163,7 @@ export default function Navbar() {
             </a>
           </div>
 
-          <div className="md:hidden flex items-center">
+          <div className="md:hidden flex items-center pr-6">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-white focus:outline-none"
@@ -136,50 +175,41 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Menu */}
-      {isOpen && (
-        <div
-          ref={menuRef}
-          className="md:hidden bg-black shadow-md flex flex-col px-4 py-4"
-        >
-          {links.map((link, i) => (
-            <Link
-              key={i}
-              href={link.href}
-              ref={(el) => (linksRef.current[i] = el)}
-              className="block px-4 py-3 text-white hover:text-blue-500 transition text-lg font-medium rounded"
-              onClick={() => setIsOpen(false)}
-            >
-              {link.name}
-            </Link>
-          ))}
-          {/* Mobile GitHub + LinkedIn + CV */}
-          <div className="flex space-x-4 mt-2">
-            <a
-              href="https://github.com/tonPseudo"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-blue-500 transition duration-300"
-            >
-              <Github size={20} className="text-white" />
-            </a>
-            <a
-              href="https://linkedin.com/in/tonProfil"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-blue-500 transition duration-300 border-1 border-white"
-            >
-              <Linkedin size={20} className="text-white" />
-            </a>
-            <a
-              href="/cv.pdf"
-              download
-              className="inline-flex items-center px-5 py-2 border border-white text-white rounded hover:bg-blue-500 hover:border-blue-500 transition duration-300 text-lg font-medium border-1 border-white"
-            >
-              <Download size={20} className="mr-2" /> CV
-            </a>
-          </div>
-        </div>
-      )}
+     {isOpen && (
+  <div
+    ref={menuRef}
+    className="md:hidden bg-gradient-to-r from-black via-gray-900 to-black text-white shadow-md flex flex-col px-4 py-4 border-t-2"
+  >
+    {links.map((link, i) => (
+      <a
+        key={i}
+        href={`#${link.id}`}
+        ref={(el) => (linksRef.current[i] = el)}
+        className="block px-4 py-3 text-white hover:text-blue-500 transition text-lg font-medium rounded "
+        onClick={() => {
+          const section = document.getElementById(link.id);
+          if (section) section.scrollIntoView({ behavior: "smooth" });
+          setIsOpen(false);
+        }}
+      >
+        {link.name}
+      </a>
+    ))}
+
+    <div className="flex space-x-4 mt-2">
+      <a href="https://github.com/Warriopops" target="_blank" rel="noopener noreferrer" className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gradient-to-r from-green-400 to-blue-500 hover:scale-105 transition duration-300 border-1 border-white">
+        <Github size={20} className="text-white" />
+      </a>
+      <a href="https://www.linkedin.com/in/thomas-laiz%C3%A9-b82b4516a/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 flex items-center justify-center hover:bg-gradient-to-r from-green-400 to-blue-500 hover:scale-105 rounded-full transition duration-300 border-1 border-white">
+        <Linkedin size={20} className="text-white" />
+      </a>
+      <a href="../CV.pdf" download className="inline-flex items-center px-5 py-2 border border-white text-white rounded hover:bg-gradient-to-r from-green-400 to-blue-500 hover:scale-105 transition duration-300 text-lg font-medium border-1 border-white">
+        <Download size={20} className="mr-2" /> CV
+      </a>
+    </div>
+  </div>
+)}
+
     </nav>
   );
 }

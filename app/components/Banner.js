@@ -31,7 +31,7 @@ export default function Banner() {
       paused: true
     });
 
-    tl.from(titleRef.current, { y: 50, opacity: 0, duration: 0.8 })
+    tl.from(titleRef.current, {  y: 50, opacity: 0, duration: 0.8 })
       .from(dynamicTextRef.current, { y: 30, opacity: 0, duration: 0.8 }, "-=0.5")
       .from(buttonRef.current, { y: 20, opacity: 0, duration: 0.6 }, "-=0.4")
       .from(logoRef.current, { x: 100, opacity: 0, duration: 0.8 }, "-=0.8");
@@ -76,7 +76,7 @@ export default function Banner() {
         const span = document.createElement('span');
         span.textContent = char === ' ' ? '\u00A0' : char;
         span.className = 'char';
-        span.style.display = 'inline-block';
+        span.style.display = 'inline-block ml-2';
         titleElement.appendChild(span);
       });
     }
@@ -175,68 +175,81 @@ export default function Banner() {
 
 
   return (
-    <section
-      ref={containerRef}
-      className="relative bg-gradient-to-r from-black via-gray-900 to-black text-white h-screen flex items-center overflow-hidden"
-      id="home"
-    >
-      <div className="max-w-7xl mx-auto w-full flex flex-col md:flex-row justify-between items-center px-8 md:px-0">
-        <div ref={textContainerRef} className="flex flex-col items-start md:w-1/2 mb-8 md:mb-0">
-          <h1 ref={titleRef} className="text-4xl md:text-6xl font-bold mb-4">
-            Hi, I&apos;m Thomas Laizé
-          </h1>
-          <p
-            ref={dynamicTextRef}
-            className="text-xl md:text-2xl text-gray-300 mb-8 h-8"
-          >
-            {texts[currentText]}
-          </p>
-          <div ref={buttonRef}>
-            <Link
-              href="#projects"
-              className="relative overflow-hidden text-white px-6 py-3 text-lg font-medium transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 inline-block group"
-              style={{
-                borderWidth: '2px',
-                borderStyle: 'solid',
-                borderImageSlice: 1,
-                borderImageSource: 'linear-gradient(to right, #22c55e, #3b82f6)',
-              }}
-            >
-              <span className="absolute inset-0 bg-gradient-to-r from-green-400 to-blue-500 transition-opacity duration-300 group-hover:opacity-0"></span>
-
-              <span className="relative">See my projects</span>
-            </Link>
-
-            <Link
-              href="#projects"
-              className="relative overflow-hidden text-white px-6 py-3 text-lg font-medium transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 inline-block group ml-12"
-              style={{
-                borderWidth: '2px',
-                borderStyle: 'solid',
-                borderImageSlice: 1,
-                borderImageSource: 'linear-gradient(to right, #22c55e, #3b82f6)',
-              }}
-            >
-              <span className="absolute inset-0 bg-gradient-to-r from-green-400 to-blue-500 transition-opacity duration-300 opacity-0 group-hover:opacity-100"></span>
-
-              <span className="relative">Contact me</span>
-            </Link>
-          </div>
+   <section
+  ref={containerRef}
+  className="relative bg-gradient-to-r from-black via-gray-900 to-black text-white h-screen flex items-center justify-center overflow-hidden"
+  id="home"
+>
+  <div className="max-w-7xl mx-auto w-full flex flex-col md:flex-row justify-center md:justify-between items-center px-8 md:px-0 text-center md:text-left">
+    {/* Texte */}
+    <div ref={textContainerRef} className="flex flex-col items-center md:items-start md:w-1/2 mb-8 md:mb-0">
+<div className="px-4 md:px-0">
+  <h1 ref={titleRef} className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 leading-snug sm:leading-normal md:leading-tight">
+    <span className="block md:inline">Hi, I&apos;m </span>
+    <span className="block md:inline">Thomas Laizé</span>
+  </h1>
+</div>
 
 
-        </div>
 
-        <div className="md:w-1/2 flex justify-center md:justify-end">
-          <Image
-            ref={logoRef}
-            src="/assets/icon.png"
-            alt="Logo"
-            width={250}
-            height={250}
-            className=""
-          />
-        </div>
+
+      <p
+        ref={dynamicTextRef}
+        className="text-xl md:text-2xl text-gray-300 mb-8 h-8"
+      >
+        {texts[currentText]}
+      </p>
+
+      <div ref={buttonRef} className="flex flex-col md:flex-row gap-4 md:gap-8">
+        <button
+          onClick={() => {
+            const section = document.getElementById("projects");
+            if (section) section.scrollIntoView({ behavior: "smooth" });
+          }}
+          className="relative overflow-hidden text-white px-6 py-3 text-lg font-medium transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 inline-block group cursor-pointer"
+          style={{
+            borderWidth: '2px',
+            borderStyle: 'solid',
+            borderImageSlice: 1,
+            borderImageSource: 'linear-gradient(to right, #22c55e, #3b82f6)',
+          }}
+        >
+          <span className="absolute inset-0 bg-gradient-to-r from-green-400 to-blue-500 transition-opacity duration-300 group-hover:opacity-0"></span>
+          <span className="relative ">See my projects</span>
+        </button>
+
+        <button
+          onClick={() => {
+            const section = document.getElementById("contact");
+            if (section) section.scrollIntoView({ behavior: "smooth" });
+          }}
+          className="relative overflow-hidden text-white px-6 py-3 text-lg font-medium transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 inline-block group cursor-pointer"
+          style={{
+            borderWidth: '2px',
+            borderStyle: 'solid',
+            borderImageSlice: 1,
+            borderImageSource: 'linear-gradient(to right, #22c55e, #3b82f6)',
+          }}
+        >
+          <span className="absolute inset-0 bg-gradient-to-r from-green-400 to-blue-500 transition-opacity duration-300 opacity-0 group-hover:opacity-100"></span>
+          <span className="relative">Contact me</span>
+        </button>
       </div>
-    </section>
+    </div>
+
+    {/* Logo */}
+    <div className="md:w-1/2 flex justify-center md:justify-end">
+      <Image
+        ref={logoRef}
+        src="/assets/icon.png"
+        alt="Logo"
+        width={250}
+        height={250}
+        className="mx-auto md:mx-0"
+      />
+    </div>
+  </div>
+</section>
+
   );
 }

@@ -19,10 +19,11 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-gradient-to-r from-black via-gray-900 to-black text-white py-4 border-t border-gray-700">
-      <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-start md:items-center">
-        
-        <div className="hidden md:flex items-center space-x-4">
+    <footer className="bg-gradient-to-r from-black via-gray-900 to-black text-white py-6 border-t border-gray-700">
+      <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center md:items-start gap-6 md:gap-0">
+
+        {/* Social Links */}
+        <div className="flex items-center space-x-4">
           <a
             href="https://github.com/Warriopops"
             target="_blank"
@@ -41,7 +42,8 @@ export default function Footer() {
           </a>
         </div>
 
-        <div className="mb-6 md:mb-0 flex flex-col md:flex-row gap-6">
+        {/* Navigation Links */}
+        <div className="flex flex-wrap justify-center md:justify-start gap-4 md:gap-6 text-center">
           {links.map((link, i) => (
             <span
               key={i}
@@ -78,19 +80,18 @@ export default function Footer() {
         </div>
 
         {/* Logo */}
-        <div className="mb-6 md:mb-0">
+        <div className="cursor-pointer" onClick={() => scrollToSection("home")}>
           <Image
             src="/icon.png"
             alt="Logo"
-            width={80}
-            height={80}
-            className="object-contain cursor-pointer"
-            onClick={() => scrollToSection("home")}
+            width={60}
+            height={60}
+            className="object-contain md:w-20 md:h-20 w-16 h-16"
           />
         </div>
       </div>
 
-      <div className="text-center text-gray-500 text-sm mt-2">
+      <div className="text-center text-gray-500 text-sm mt-4 md:mt-6">
         CopyRight &copy; {new Date().getFullYear()}. All Right Reserved - Thomas Laizé
       </div>
     </footer>
