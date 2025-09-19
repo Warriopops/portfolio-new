@@ -1,0 +1,29 @@
+---
+networks:
+  traefik:
+    external: true
+
+services:
+  thomas:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.thomas.rule=Host(`thomas.laize.pro`)
+      - traefik.http.routers.thomas.service=thomas
+      - traefik.http.routers.thomas.entrypoints=https
+      - traefik.http.routers.thomas.tls=true
+      - traefik.http.routers.thomas.tls.certresolver=cloudflare
+      - traefik.http.services.thomas.loadbalancer.server.port=3000
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/London
+    restart: unless-stopped
+
