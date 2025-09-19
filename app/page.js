@@ -3,6 +3,7 @@ import Banner from "../app/components/Banner";
 import ScrollBar from "../app/components/ScrollBar";
 import Projects from "../app/components/Projects";
 import Skill from "../app/components/Skill";
+import Footer from "../app/components/Footer";
 
 export default function Home() {
   const myProjects = [
@@ -50,6 +51,7 @@ export default function Home() {
       <ScrollBar speed={250}></ScrollBar>
       <Projects projects={myProjects} />
       <Skill />
+      <Footer />
     </div>
   );
 }

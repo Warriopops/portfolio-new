@@ -208,7 +208,7 @@ export default function Banner() {
           <div ref={buttonRef}>
             <Link
               href="/projects"
-              className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-medium transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 inline-block"
+              className="bg-gradient-to-r from-green-400 to-blue-500 scale-105 transition-transform cursor-pointer text-white px-6 py-3 rounded-lg text-lg font-medium transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 inline-block"
             >
               See my projects
             </Link>

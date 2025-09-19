@@ -54,13 +54,42 @@ export default function Navbar() {
               />
             </Link>
             {links.map((link, i) => (
-              <Link
-                key={i}
-                href={link.href}
-                className="text-white hover:text-blue-500 transition duration-300 hidden md:inline-block text-lg font-medium"
-              >
-                {link.name}
-              </Link>
+   <Link
+  key={i}
+  href={link.href}
+  className="
+    relative
+    text-white
+    hover:text-transparent
+    hover:bg-clip-text
+    hover:bg-gradient-to-r
+    hover:from-green-400
+    hover:to-blue-500
+    hover:scale-105
+    transition-transform
+    cursor-pointer
+    hidden md:inline-block
+    text-lg font-medium
+
+    after:content-['']
+    after:absolute
+    after:left-0
+    after:-bottom-1
+    after:h-0.5
+    after:w-0
+    after:bg-gradient-to-r
+    after:from-green-400
+    after:to-blue-500
+    after:rounded-full
+    after:transition-all
+    after:duration-300
+    hover:after:w-full
+  "
+>
+  {link.name}
+</Link>
+
+
             ))}
           </div>
 
@@ -71,7 +100,7 @@ export default function Navbar() {
               href="https://github.com/Warriopops"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-blue-500 transition duration-300 border-2 border-white"
+              className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gradient-to-r from-green-400 to-blue-500 hover:scale-105 transition-transform cursor-pointer border-2 border-white"
             >
               <Github size={20} className="text-white" />
             </a>
@@ -81,7 +110,7 @@ export default function Navbar() {
               href="https://www.linkedin.com/in/thomas-laiz%C3%A9-b82b4516a/"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-blue-500 transition duration-300 border-2 border-white"
+              className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gradient-to-r from-green-400 to-blue-500 hover:scale-105 transition-transform cursor-pointer border-2 border-white"
             >
               <Linkedin size={20} className="text-white" />
             </a>
@@ -90,7 +119,7 @@ export default function Navbar() {
             <a
               href="../CV.pdf"
               download
-              className="inline-flex items-center px-5 py-2 border border-white text-white rounded hover:bg-blue-500 hover:border-blue-500 transition duration-300 text-lg font-medium"
+              className="inline-flex items-center px-5 py-2 border border-white text-white rounded hover:bg-gradient-to-r from-green-400 to-blue-500 hover:scale-105 transition-transform cursor-pointer text-lg font-medium"
             >
               <Download size={20} className="mr-2" /> CV
             </a>
