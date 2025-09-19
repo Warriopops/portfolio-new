@@ -183,7 +183,7 @@ export default function Banner() {
       <div className="max-w-7xl mx-auto w-full flex flex-col md:flex-row justify-between items-center px-8 md:px-0">
         <div ref={textContainerRef} className="flex flex-col items-start md:w-1/2 mb-8 md:mb-0">
           <h1 ref={titleRef} className="text-4xl md:text-6xl font-bold mb-4">
-            Hi, I m Thomas Laizé
+            Hi, I&apos;m Thomas Laizé
           </h1>
           <p
             ref={dynamicTextRef}
