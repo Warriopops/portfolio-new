@@ -13,10 +13,10 @@ export default function Navbar() {
   const navRef = useRef();
 
   const links = [
-    { name: "Home", href: "/" },
-    { name: "Projects", href: "/about" },
-    { name: "Skills", href: "/projects" },
-    { name: "Contact", href: "/contact" }
+    { name: "Home", id: "home" },
+    { name: "Projects", id: "projects" },
+    { name: "Skills", id: "skills" },
+    { name: "Contact", id: "contact" }
   ];
 
   useEffect(() => {
@@ -39,10 +39,9 @@ export default function Navbar() {
   }, [isOpen]);
 
   return (
-    <nav ref={navRef} className="bg-black shadow-md fixed w-full z-50 font-sans">
+    <nav ref={navRef} className="border-b border-gray-700 bg-black shadow-md fixed w-full z-50 font-sans bg-gradient-to-r from-black via-gray-900 to-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
-          {/* Logo + Links à gauche */}
           <div className="flex items-center space-x-8">
             <Link href="/" className="flex items-center">
               <Image
@@ -54,48 +53,50 @@ export default function Navbar() {
               />
             </Link>
             {links.map((link, i) => (
-   <Link
-  key={i}
-  href={link.href}
-  className="
-    relative
-    text-white
-    hover:text-transparent
-    hover:bg-clip-text
-    hover:bg-gradient-to-r
-    hover:from-green-400
-    hover:to-blue-500
-    hover:scale-105
-    transition-transform
-    cursor-pointer
-    hidden md:inline-block
-    text-lg font-medium
+   <span
+    key={i}
+    onClick={() => {
+      const section = document.getElementById(link.id);
+      if (section) section.scrollIntoView({ behavior: "smooth" });
+      setIsOpen(false); 
+    }}
+    className="
+      relative
+      text-white
+      hover:text-transparent
+      hover:bg-clip-text
+      hover:bg-gradient-to-r
+      hover:from-green-400
+      hover:to-blue-500
+      hover:scale-105
+      transition-transform
+      cursor-pointer
+      hidden md:inline-block
+      text-lg font-medium
 
-    after:content-['']
-    after:absolute
-    after:left-0
-    after:-bottom-1
-    after:h-0.5
-    after:w-0
-    after:bg-gradient-to-r
-    after:from-green-400
-    after:to-blue-500
-    after:rounded-full
-    after:transition-all
-    after:duration-300
-    hover:after:w-full
-  "
->
-  {link.name}
-</Link>
+      after:content-['']
+      after:absolute
+      after:left-0
+      after:-bottom-1
+      after:h-0.5
+      after:w-0
+      after:bg-gradient-to-r
+      after:from-green-400
+      after:to-blue-500
+      after:rounded-full
+      after:transition-all
+      after:duration-300
+      hover:after:w-full
+    "
+  >
+    {link.name}
+  </span>
 
 
             ))}
           </div>
 
-          {/* Boutons à droite : GitHub + LinkedIn + CV */}
           <div className="hidden md:flex items-center space-x-4">
-            {/* GitHub */}
             <a
               href="https://github.com/Warriopops"
               target="_blank"
@@ -105,7 +106,6 @@ export default function Navbar() {
               <Github size={20} className="text-white" />
             </a>
 
-            {/* LinkedIn */}
             <a
               href="https://www.linkedin.com/in/thomas-laiz%C3%A9-b82b4516a/"
               target="_blank"
@@ -115,7 +115,6 @@ export default function Navbar() {
               <Linkedin size={20} className="text-white" />
             </a>
 
-            {/* CV */}
             <a
               href="../CV.pdf"
               download
@@ -125,7 +124,6 @@ export default function Navbar() {
             </a>
           </div>
 
-          {/* Mobile Hamburger */}
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}

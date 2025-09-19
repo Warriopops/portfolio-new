@@ -76,10 +76,10 @@ export default function ProjectCard({
     const yellow = ["mongodb", "postgresql"];
     const blue = ["nextjs", "react", "tailwind", "gsap", "threejs"];
     const lowerCat = cat.toLowerCase();
-    if (green.includes(lowerCat)) return "bg-green-500";
-    if (yellow.includes(lowerCat)) return "bg-yellow-400";
-    if (blue.includes(lowerCat)) return "bg-blue-500";
-    return "bg-gray-500";
+    if (green.includes(lowerCat)) return "bg-gradient-to-r from-green-400 to-blue-500";
+    if (yellow.includes(lowerCat)) return "bg-gradient-to-r from-yellow-400 to-orange-400";
+    if (blue.includes(lowerCat)) return "bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500";
+    return "bg-gradient-to-r from-gray-400 to-gray-600";
   };
 
   return (

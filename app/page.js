@@ -1,9 +1,9 @@
-import Image from "next/image";
 import Banner from "../app/components/Banner";
 import ScrollBar from "../app/components/ScrollBar";
 import Projects from "../app/components/Projects";
 import Skill from "../app/components/Skill";
 import Footer from "../app/components/Footer";
+import Contact from "../app/components/Contact";
 
 export default function Home() {
   const myProjects = [
@@ -32,7 +32,7 @@ export default function Home() {
       image: "project4.png",
       title: "Usipanel",
       description: "Writing technical tickets, breaking down and planning tasks, managing priorities and the backlog, maintaining a microservice, frontend development (React, Three.js), CSS integration with Tailwind, backend development (Node.js), and creating a back-office with user, role, and middleware management.",
-      categories: ["React", "Tailwind", "ThreeJS", "NodeJS", "PostegreSQL", "API"],
+      categories: ["React", "Tailwind", "ThreeJS", "NodeJS", "PostgreSQL", "API"],
       url: "https://mycover-up.fr/configurateur/"
     },
     {
@@ -42,7 +42,6 @@ export default function Home() {
       categories: ["NextJS", "Tailwind", "Gsap"],
       url: "https://iris-prevention.fr/comment-ca-marche/"
     }
-    // ajoute autant de projets que tu veux
   ];
 
   return (
@@ -51,6 +50,7 @@ export default function Home() {
       <ScrollBar speed={250}></ScrollBar>
       <Projects projects={myProjects} />
       <Skill />
+      <Contact />
       <Footer />
     </div>
   );

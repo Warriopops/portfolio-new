@@ -52,16 +52,26 @@ export default function Banner() {
     };
   }, []);
 
-  // Effet de "cassure" du texte au scroll
   useEffect(() => {
-    // Créer des spans pour chaque lettre du titre
+    const logo = logoRef.current;
+
+    gsap.to(logo, {
+      y: -20,
+      duration: 1,
+      ease: "power1.inOut",
+      repeat: -1,
+      yoyo: true
+    });
+  }, []);
+
+
+  useEffect(() => {
     const titleElement = titleRef.current;
     if (titleElement && !titleElement.classList.contains('split')) {
       const text = titleElement.innerText;
       titleElement.innerHTML = '';
       titleElement.classList.add('split');
-      
-      // Créer un span pour chaque caractère
+
       text.split('').forEach((char, i) => {
         const span = document.createElement('span');
         span.textContent = char === ' ' ? '\u00A0' : char;
@@ -71,14 +81,13 @@ export default function Banner() {
       });
     }
 
-    // Animation de cassure au scroll
     const chars = titleRef.current?.querySelectorAll('.char');
     if (chars) {
       chars.forEach((char, i) => {
         gsap.to(char, {
-          y: () => Math.random() * 200 - 100, // Déplacement aléatoire vertical
-          x: () => Math.random() * 100 - 50,  // Déplacement aléatoire horizontal
-          rotation: () => Math.random() * 360 - 180, // Rotation aléatoire
+          y: () => Math.random() * 200 - 100,
+          x: () => Math.random() * 100 - 50,
+          rotation: () => Math.random() * 360 - 180,
           opacity: 0,
           ease: "power2.out",
           scrollTrigger: {
@@ -91,7 +100,6 @@ export default function Banner() {
       });
     }
 
-    // Animation du conteneur de texte qui se réduit
     gsap.to(textContainerRef.current, {
       scale: 0.8,
       opacity: 0.7,
@@ -107,7 +115,6 @@ export default function Banner() {
 
   }, []);
 
-  // Texte dynamique
   useEffect(() => {
     const interval = setInterval(() => {
       gsap.to(dynamicTextRef.current, {
@@ -123,51 +130,30 @@ export default function Banner() {
     return () => clearInterval(interval);
   }, []);
 
-  // ⚡ Animation du logo qui tourne au scroll (CORRIGÉE)
   useEffect(() => {
     const logo = logoRef.current;
 
     gsap.to(logo, {
-      rotationY: 360 * 2,       // rotation sur l'axe Y (3D)
-      transformPerspective: 600, // perspective pour le 3D
+      rotationY: 360 * 2,
+      transformPerspective: 600,
       ease: "none",
       scrollTrigger: {
         trigger: containerRef.current,
         start: "top bottom",
         end: "bottom top",
-        scrub: true,            // suit le scroll
+        scrub: true,
       }
     });
   }, []);
 
-  // Effet WOW 3D + flip au survol et clic
+
   useEffect(() => {
     const logo = logoRef.current;
     const rotationRef = { x: 0, y: 0 };
 
-    const handleMouseMove = (e) => {
-      const rect = logo.getBoundingClientRect();
-      const offsetX = e.clientX - rect.left - rect.width / 2;
-      const offsetY = e.clientY - rect.top - rect.height / 2;
 
-      gsap.to(logo, {
-        rotationY: rotationRef.y + offsetX / 10,
-        rotationX: rotationRef.x - offsetY / 10,
-        transformPerspective: 600,
-        transformStyle: "preserve-3d",
-        ease: "power2.out",
-        duration: 0.2
-      });
-    };
 
-    const handleMouseLeave = () => {
-      gsap.to(logo, {
-        rotationY: rotationRef.y,
-        rotationX: rotationRef.x,
-        ease: "power2.out",
-        duration: 0.4
-      });
-    };
+
 
     const handleClick = () => {
       rotationRef.y += 360;
@@ -178,26 +164,26 @@ export default function Banner() {
       });
     };
 
-    logo.addEventListener("mousemove", handleMouseMove);
-    logo.addEventListener("mouseleave", handleMouseLeave);
+
     logo.addEventListener("click", handleClick);
 
     return () => {
-      logo.removeEventListener("mousemove", handleMouseMove);
-      logo.removeEventListener("mouseleave", handleMouseLeave);
+
       logo.removeEventListener("click", handleClick);
     };
   }, []);
+
 
   return (
     <section
       ref={containerRef}
       className="relative bg-gradient-to-r from-black via-gray-900 to-black text-white h-screen flex items-center overflow-hidden"
+      id="home"
     >
       <div className="max-w-7xl mx-auto w-full flex flex-col md:flex-row justify-between items-center px-8 md:px-0">
         <div ref={textContainerRef} className="flex flex-col items-start md:w-1/2 mb-8 md:mb-0">
           <h1 ref={titleRef} className="text-4xl md:text-6xl font-bold mb-4">
-            Hi, I'm Thomas Laizé
+            Hi, I m Thomas Laizé
           </h1>
           <p
             ref={dynamicTextRef}
@@ -207,23 +193,47 @@ export default function Banner() {
           </p>
           <div ref={buttonRef}>
             <Link
-              href="/projects"
-              className="bg-gradient-to-r from-green-400 to-blue-500 scale-105 transition-transform cursor-pointer text-white px-6 py-3 rounded-lg text-lg font-medium transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 inline-block"
+              href="#projects"
+              className="relative overflow-hidden text-white px-6 py-3 text-lg font-medium transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 inline-block group"
+              style={{
+                borderWidth: '2px',
+                borderStyle: 'solid',
+                borderImageSlice: 1,
+                borderImageSource: 'linear-gradient(to right, #22c55e, #3b82f6)',
+              }}
             >
-              See my projects
+              <span className="absolute inset-0 bg-gradient-to-r from-green-400 to-blue-500 transition-opacity duration-300 group-hover:opacity-0"></span>
+
+              <span className="relative">See my projects</span>
+            </Link>
+
+            <Link
+              href="#projects"
+              className="relative overflow-hidden text-white px-6 py-3 text-lg font-medium transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 inline-block group ml-12"
+              style={{
+                borderWidth: '2px',
+                borderStyle: 'solid',
+                borderImageSlice: 1,
+                borderImageSource: 'linear-gradient(to right, #22c55e, #3b82f6)',
+              }}
+            >
+              <span className="absolute inset-0 bg-gradient-to-r from-green-400 to-blue-500 transition-opacity duration-300 opacity-0 group-hover:opacity-100"></span>
+
+              <span className="relative">Contact me</span>
             </Link>
           </div>
+
+
         </div>
 
-        {/* Logo interactif */}
         <div className="md:w-1/2 flex justify-center md:justify-end">
           <Image
             ref={logoRef}
             src="/assets/icon.png"
             alt="Logo"
-            width={200}
-            height={200}
-            className="object-contain cursor-pointer"
+            width={250}
+            height={250}
+            className=""
           />
         </div>
       </div>
