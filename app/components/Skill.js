@@ -3,13 +3,24 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { SKILL, SKILL_TYPE } from "../data/skills";
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Transform l'objet des skills en liste simple
+const skillList = Object.values(SKILL);
 const skillsData = {
-  'Front-End': ['HTML', 'CSS', 'JavaScript', 'React', 'Next.js', 'Tailwind', 'GSAP', 'Framer Motion', 'Three.js', 'Vue.js'],
-  'Back-End': ['Node.js', 'Ruby', 'Strapi', 'PostgreSQL', 'MongoDB', 'AWS'],
-  Tools: ['Figma', 'TypeScript', 'Tampermonkey', 'Linux', 'Windows', 'Shell', 'Docker', 'Git', 'Discord'],
+  "Front-End": skillList
+    .filter((skill) => skill.type === SKILL_TYPE.FRONT)
+    .map((skill) => skill.name),
+  "Back-End": skillList
+    .filter(
+      (skill) => skill.type === SKILL_TYPE.BACK || skill.type === SKILL_TYPE.DB
+    )
+    .map((skill) => skill.name),
+  Tools: skillList
+    .filter((skill) => skill.type === SKILL_TYPE.TOOL)
+    .map((skill) => skill.name),
 };
 
 const categoryTextGradients = {
