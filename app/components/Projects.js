@@ -112,11 +112,7 @@ useEffect(() => {
               ref={(el) => (gridRef.current[i] = el)}
             >
               <ProjectCard
-                image={project.image}
-                title={project.title}
-                description={project.description}
-                categories={project.categories}
-                url={project.url}
+              {...project}
               />
             </div>
           ))}

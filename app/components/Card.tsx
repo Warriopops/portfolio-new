@@ -1,20 +1,23 @@
-'use client';
+"use client";
 
 import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import Link from "next/link";
+import { TExperienceType } from "../data/experiences";
+import { SKILL_TYPE, TSkill } from "../data/skills";
+import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function ProjectCard({
-  image,
+  img_path,
   title,
   description,
   categories = [],
-  url = "#"  // URL de destination
-}) {
-  const cardRef = useRef();
+  url = "#", // URL de destination
+}: TExperienceType) {
+  const cardRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const el = cardRef.current;
@@ -34,8 +37,8 @@ export default function ProjectCard({
           end: "bottom 40%",
           toggleActions: "play reverse play reverse",
           scrub: 0.3,
-          markers: false
-        }
+          markers: false,
+        },
       }
     );
   }, []);
@@ -56,7 +59,7 @@ export default function ProjectCard({
       scale: 1.08,
       transformPerspective: 500,
       ease: "power3.out",
-      duration: 0.3
+      duration: 0.3,
     });
   };
 
@@ -67,18 +70,17 @@ export default function ProjectCard({
       rotateY: 0,
       scale: 1,
       ease: "power3.out",
-      duration: 0.5
+      duration: 0.5,
     });
   };
 
-  const getCategoryColor = (cat) => {
-    const green = ["nodejs", "strapi"];
-    const yellow = ["mongodb", "postgresql"];
-    const blue = ["nextjs", "react", "tailwind", "gsap", "threejs"];
-    const lowerCat = cat.toLowerCase();
-    if (green.includes(lowerCat)) return "bg-gradient-to-r from-green-400 to-blue-500";
-    if (yellow.includes(lowerCat)) return "bg-gradient-to-r from-yellow-400 to-orange-400";
-    if (blue.includes(lowerCat)) return "bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500";
+  const getCategoryColor = (cat: TSkill) => {
+    if (cat.type === SKILL_TYPE.FRONT)
+      return "bg-gradient-to-r from-green-400 to-blue-500";
+    if (cat.type === SKILL_TYPE.DB)
+      return "bg-gradient-to-r from-yellow-400 to-orange-400";
+    if (cat.type === SKILL_TYPE.BACK)
+      return "bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500";
     return "bg-gradient-to-r from-gray-400 to-gray-600";
   };
 
@@ -87,20 +89,22 @@ export default function ProjectCard({
       <a target="_blank" rel="noopener noreferrer" className="block">
         <div
           ref={cardRef}
-          onMouseMove={handleMouseMove}
+          onMouseMove={(e) => handleMouseMove(e)}
           onMouseLeave={handleMouseLeave}
           className="bg-gray-900 text-white rounded-xl shadow-xl overflow-hidden w-full max-w-sm h-[34rem] flex flex-col cursor-pointer"
           style={{ perspective: 1000 }}
         >
           {/* Image */}
           <div className="w-full h-56 overflow-hidden flex-shrink-0">
-            <img
-              src={image}
+            <Image
+              src={img_path}
               alt={title}
+              height={0}
+              width={0}
+              sizes="100%"
               className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
             />
           </div>
-
           {/* Contenu */}
           <div className="p-4 flex flex-col flex-grow">
             <h3 className="text-2xl font-bold mb-2">{title}</h3>
@@ -111,9 +115,11 @@ export default function ProjectCard({
               {categories.map((cat, i) => (
                 <span
                   key={i}
-                  className={`${getCategoryColor(cat)} text-white text-xs px-2 py-1 rounded-full`}
+                  className={`${getCategoryColor(
+                    cat
+                  )} text-white text-xs px-2 py-1 rounded-full`}
                 >
-                  {cat}
+                  {cat.name}
                 </span>
               ))}
             </div>
