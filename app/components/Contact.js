@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { Github, Linkedin } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Script from "next/script";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -24,16 +25,36 @@ export default function Contact() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const contactData = {
-      ...form,
-      date: new Date().toISOString(),
-    };
-    console.log("Contact object:", contactData);
-    setSubmitted(true);
-    setForm({ name: "", email: "", message: "", object: "" });
+
+    if (!window.grecaptcha) {
+      alert("reCAPTCHA not loaded");
+      return;
+    }
+
+    // Générer un token v3
+    const token = await window.grecaptcha.execute(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY, { action: "contact" });
+
+    try {
+      const res = await fetch("http://localhost:5000/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, captchaToken: token }),
+      });
+
+      if (res.ok) {
+        setSubmitted(true);
+        setForm({ name: "", email: "", message: "", object: "" });
+      } else {
+        const data = await res.json();
+        alert(data.error || "Something went wrong.");
+      }
+    } catch (err) {
+      console.error("Erreur:", err);
+    }
   };
+
 
   useEffect(() => {
     let ctx = gsap.context(() => {
@@ -167,6 +188,11 @@ export default function Contact() {
       ref={containerRef}
       className="bg-gradient-to-r from-black via-gray-900 to-black text-white py-20 px-6 md:px-12"
     >
+           <Script
+        src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+        strategy="lazyOnload"
+      />
+
       <div className="max-w-3xl mx-auto text-center">
         <h2 ref={titleRef} className="text-4xl font-bold mb-6">
           Contact Me
